@@ -4,7 +4,7 @@ import time
 
 BASE_URL = "http://127.0.0.1:8000/api/sensor-readings/"
 
-df = pd.read_csv("data\\raw\\train\\01_M01_DC_train.csv")
+df = pd.read_csv("data/raw/train/01_M01_DC_train.csv")
 
 
 for _, row in df.iterrows():
