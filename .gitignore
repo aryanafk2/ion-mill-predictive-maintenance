@@ -1,0 +1,65 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.env
+*.log
+venv/
+.env
+.DS_Store
+node_modules/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+.env/
+
+# Django
+db.sqlite3
+*.log
+staticfiles/
+media/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# ML Models
+*.pkl
+*.joblib
+
+# PostgreSQL dumps
+*.sql
+
+# Node modules (future frontend)
+node_modules/
+
+# React build
+frontend/build/
+
+# Dataset files
+data/raw/
+data/processed/
+
+# Large CSVs
+*.csv
