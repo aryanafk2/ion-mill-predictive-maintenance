@@ -42,13 +42,4 @@ class SensorReading(models.Model):
  # 1 equipment can have multiple sensor readings, 
  # but each sensor reading belongs to one equipment.
 
-    timestamp = models.FloatField()
-
-    ion_gauge_pressure = models.FloatField()
-    flowcool_pressure = models.FloatField()
-    flowcool_flowrate = models.FloatField()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.equipment.tool_id} - {self.timestamp}"
+  

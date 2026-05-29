@@ -12,34 +12,69 @@ import {
 } from "recharts";
 
 function App() {
+  const [equipmentList, setEquipmentList] = useState([]);
+  const [selectedEquipment, setSelectedEquipment] = useState(null);
+
   const [health, setHealth] = useState(null);
   const [readings, setReadings] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [fleetHealth, setFleetHealth] = useState([]);
+  const fetchEquipment = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/equipment/"
+      );
 
-  const fetchData = () => {
-    axios
-      .get("http://127.0.0.1:8000/api/equipment/1/health/")
-      .then((response) => {
-        setHealth(response.data);
-      })
-      .catch((error) => console.error(error));
+      setEquipmentList(response.data);
 
-    axios
-      .get("http://127.0.0.1:8000/api/equipment/1/readings/")
-      .then((response) => {
-        setReadings(response.data.reverse());
-      })
-      .catch((error) => console.error(error));
+      if (
+        response.data.length > 0 &&
+        selectedEquipment === null
+      ) {
+        setSelectedEquipment(response.data[0].id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    axios
-      .get("http://127.0.0.1:8000/api/alerts/")
-      .then((response) => {
-        setAlerts(response.data);
-      })
-      .catch((error) => console.error(error));
+  const fetchData = async () => {
+    if (!selectedEquipment) return;
+
+    try {
+      const healthResponse = await axios.get(
+        `http://127.0.0.1:8000/api/equipment/${selectedEquipment}/health/`
+      );
+
+      setHealth(healthResponse.data);
+
+      const readingsResponse = await axios.get(
+        `http://127.0.0.1:8000/api/equipment/${selectedEquipment}/readings/`
+      );
+
+      setReadings(readingsResponse.data.reverse());
+
+      const alertsResponse = await axios.get(
+        "http://127.0.0.1:8000/api/alerts/"
+      );
+      const fleetResponse = await axios.get(
+      "http://127.0.0.1:8000/api/fleet-health/"
+      );
+
+      setFleetHealth(fleetResponse.data);  
+      setAlerts(alertsResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
+    fetchEquipment();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedEquipment) return;
+
     fetchData();
 
     const interval = setInterval(() => {
@@ -47,7 +82,7 @@ function App() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedEquipment]);
 
   const healthColor =
     health?.health_score > 80
@@ -68,13 +103,122 @@ function App() {
       <h1
         style={{
           textAlign: "center",
-          fontSize: "4rem",
-          marginBottom: "40px",
+          fontSize: "3rem",
+          marginBottom: "30px",
         }}
       >
         PHM Dashboard
       </h1>
 
+      <div
+        style={{
+          marginBottom: "30px",
+          textAlign: "center",
+        }}
+      >
+        <label
+          style={{
+            fontSize: "1.2rem",
+            marginRight: "10px",
+          }}
+        >
+          Select Tool:
+        </label>
+
+        <select
+          value={selectedEquipment || ""}
+          onChange={(e) =>
+            setSelectedEquipment(
+              Number(e.target.value)
+            )
+          }
+          style={{
+            padding: "10px",
+            borderRadius: "8px",
+            fontSize: "1rem",
+          }}
+        >
+          {equipmentList.map((eq) => (
+            <option
+              key={eq.id}
+              value={eq.id}
+            >
+              {eq.tool_id}
+            </option>
+          ))}
+        </select>
+      </div>
+        {/* ================= FLEET OVERVIEW ================= */}
+
+<div
+  style={{
+    backgroundColor: "#1e293b",
+    padding: "20px",
+    borderRadius: "20px",
+    marginBottom: "30px",
+  }}
+>
+  <h2
+    style={{
+      textAlign: "center",
+      marginBottom: "20px",
+    }}
+  >
+    Fleet Overview
+  </h2>
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns:
+        "repeat(auto-fit, minmax(220px, 1fr))",
+      gap: "15px",
+    }}
+  >
+    {fleetHealth.map((tool) => {
+
+      const color =
+        tool.health_score > 80
+          ? "#22c55e"
+          : tool.health_score > 60
+          ? "#eab308"
+          : "#ef4444";
+
+      return (
+                <div
+                  key={tool.tool_id}
+                  style={{
+                    backgroundColor: "#111827",
+                    padding: "15px",
+                    borderRadius: "10px",
+                    border: `2px solid ${color}`,
+                  }}
+                >
+                  <h3>{tool.tool_id}</h3>
+
+                  <p>
+                    Health:{" "}
+                    <span
+                      style={{
+                        color,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {tool.health_score.toFixed(2)}%
+                    </span>
+                  </p>
+
+                  <p>
+                    Status:{" "}
+                    {tool.is_anomaly
+                      ? "Anomaly"
+                      : "Healthy"}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       {health && (
         <div
           style={{

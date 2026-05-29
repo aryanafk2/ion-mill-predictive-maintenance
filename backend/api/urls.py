@@ -5,6 +5,8 @@ from .views import (
     EquipmentHealthView,
     RecentReadingsView,
     AlertsView,
+    EquipmentListView,
+    FleetHealthView,
 )
 
 urlpatterns = [
@@ -34,5 +36,17 @@ urlpatterns = [
         "alerts/",
         AlertsView.as_view(),
         name="alerts",
+    ),
+
+    path(
+        "equipment/",
+        EquipmentListView.as_view(),
+        name="equipment-list",
+    ),
+
+    path(
+        "fleet-health/",
+        FleetHealthView.as_view(),
+        name="fleet-health",
     ),
 ]

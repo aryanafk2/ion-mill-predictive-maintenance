@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Equipment
 
+
+
+
 class SensorReadingCreateView(generics.CreateAPIView):
 
     queryset = SensorReading.objects.all()
@@ -107,22 +110,44 @@ class AlertsView(APIView):
 
         return Response(alerts)
     
-def perform_create(self, serializer):
 
-    reading = serializer.save()
+class EquipmentListView(APIView):
 
-    sensor_values = [
-        reading.ion_gauge_pressure,
-        reading.flowcool_pressure,
-        reading.flowcool_flowrate
-    ]
+    def get(self, request):
 
-    score, is_anomaly = predict_anomaly(sensor_values)
+        equipment = Equipment.objects.all()
 
-    health = calculate_health_score(score)
+        data = []
 
-    reading.anomaly_score = score
-    reading.is_anomaly = is_anomaly
-    reading.health_score = health
+        for eq in equipment:
+            data.append({
+                "id": eq.id,
+                "tool_id": eq.tool_id
+            })
 
-    reading.save()
+        return Response(data)
+    
+class FleetHealthView(APIView):
+
+    def get(self, request):
+
+        data = []
+
+        for equipment in Equipment.objects.all():
+
+            latest_reading = (
+                equipment.readings
+                .exclude(health_score__isnull=True)
+                .order_by("-id")
+                .first()
+            )
+
+            if latest_reading:
+
+                data.append({
+                    "tool_id": equipment.tool_id,
+                    "health_score": latest_reading.health_score,
+                    "is_anomaly": latest_reading.is_anomaly
+                })
+
+        return Response(data)
