@@ -33,8 +33,12 @@ class SensorReading(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    health_score = models.FloatField(
+    null=True,
+    blank=True
+    )
     def __str__(self):
-        return f"{self.equipment.tool_id} - {self.timestamp}"
+        return f"{self.equipment.tool_id} - {self.timestamp}"   
  # 1 equipment can have multiple sensor readings, 
  # but each sensor reading belongs to one equipment.
 

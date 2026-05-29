@@ -1,24 +1,30 @@
-import numpy as np
-from sklearn.ensemble import IsolationForest
+from pathlib import Path
+import joblib
 
 
-model = IsolationForest(
-    contamination=0.01,
-    random_state=42
-)
+BASE_DIR = Path(__file__).resolve().parent
 
+MODEL_PATH = BASE_DIR / "isolation_forest.pkl"
 
-dummy_data = np.random.rand(100, 3)
-
-model.fit(dummy_data)
+model = joblib.load(MODEL_PATH)
 
 
 def predict_anomaly(sensor_values):
 
     prediction = model.predict([sensor_values])
 
-    score = model.decision_function([sensor_values])[0]
+    score = model.decision_function(
+        [sensor_values]
+    )[0]
 
     is_anomaly = prediction[0] == -1
 
-    return score, is_anomaly
+    return score, 
+
+def calculate_health_score(score):
+
+    health = 50 + (score * 50)
+
+    health = max(0, min(100, health))
+
+    return round(health, 2)

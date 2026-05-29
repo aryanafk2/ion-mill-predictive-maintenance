@@ -3,7 +3,7 @@ from .models import SensorReading
 from .serializers import SensorReadingSerializer
 
 from ml.detector import predict_anomaly
-
+from ml.detector import calculate_health_score
 
 class SensorReadingCreateView(generics.CreateAPIView):
 
@@ -21,7 +21,8 @@ class SensorReadingCreateView(generics.CreateAPIView):
         ]
 
         score, is_anomaly = predict_anomaly(sensor_values)
-
+        health = calculate_health_score(score)
+        reading.health_score = health
         reading.anomaly_score = score
         reading.is_anomaly = is_anomaly
 
