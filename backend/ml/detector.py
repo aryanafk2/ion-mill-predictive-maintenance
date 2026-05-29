@@ -1,7 +1,6 @@
 from pathlib import Path
 import joblib
 
-
 BASE_DIR = Path(__file__).resolve().parent
 
 MODEL_PATH = BASE_DIR / "isolation_forest.pkl"
@@ -19,7 +18,8 @@ def predict_anomaly(sensor_values):
 
     is_anomaly = prediction[0] == -1
 
-    return score, 
+    return score, is_anomaly
+
 
 def calculate_health_score(score):
 
