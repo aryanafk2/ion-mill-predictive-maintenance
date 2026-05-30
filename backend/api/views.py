@@ -179,3 +179,4 @@ class FleetHealthView(APIView):
                 })
 
         return Response(data)
+    

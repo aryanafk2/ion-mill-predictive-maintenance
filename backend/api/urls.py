@@ -49,4 +49,6 @@ urlpatterns = [
         FleetHealthView.as_view(),
         name="fleet-health",
     ),
+
+    
 ]
