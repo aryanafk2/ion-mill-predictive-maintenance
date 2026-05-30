@@ -58,34 +58,26 @@ The system simulates multiple ion mill tools operating concurrently and provides
 ---
 
 ## System Architecture
+## Data Flow
 
-
-                    PHM 2022 Dataset
-                           │
-                           ▼
-              Concurrent Multi-Tool Simulator
-                           │
-                           ▼
-                 Django REST API Backend
-                           │
-        ┌──────────────────┼──────────────────┐
-        │                  │                  │
-        ▼                  ▼                  ▼
-
- PostgreSQL        Isolation Forest      TTF Model
-  Database        Anomaly Detection    RUL Prediction
-
-        │                  │                  │
-        └──────────────────┼──────────────────┘
-                           │
-                           ▼
-                  Processed Equipment Data
-                           │
-                           ▼
-                 React Fleet Dashboard
-                           │
-                           ▼
-                    End User / Operator
+```text
+PHM Dataset
+     │
+     ▼
+Multi-Tool Simulator
+     │
+     ▼
+Django REST API
+     │
+     ├── Stores telemetry in PostgreSQL
+     ├── Runs Isolation Forest anomaly detection
+     └── Generates TTF predictions
+     | 
+     ▼
+React Fleet Dashboard
+     │
+     ▼
+Operators and Maintenance Engineers
 ```
 
 
