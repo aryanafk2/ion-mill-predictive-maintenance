@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'phm_db',
         'USER': 'postgres',
         'PASSWORD': '1407',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }

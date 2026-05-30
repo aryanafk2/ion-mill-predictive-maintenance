@@ -9,23 +9,22 @@ BASE_URL = "http://127.0.0.1:8000/api/sensor-readings/"
 
 TOOLS = {
     "01_M01": {
-        "equipment_id": 42,
+        "equipment_id": 1,
         "csv": "data/raw/train/01_M01_DC_train.csv"
     },
     "01_M02": {
-        "equipment_id": 43,
+        "equipment_id": 2,
         "csv": "data/raw/train/01_M02_DC_train.csv"
     },
     "02_M01": {
-        "equipment_id": 44,
+        "equipment_id": 3,
         "csv": "data/raw/train/02_M01_DC_train.csv"
     },
     "02_M02": {
-        "equipment_id": 45,
+        "equipment_id": 4,
         "csv": "data/raw/train/02_M02_DC_train.csv"
     }
 }
-
 
 def simulate_tool(tool_name, equipment_id, csv_path):
 
@@ -53,6 +52,7 @@ def simulate_tool(tool_name, equipment_id, csv_path):
 
             print(
                 f"{tool_name}: {response.status_code}"
+                f"{tool_name}: {response.text}"
             )
 
         except Exception as e:
