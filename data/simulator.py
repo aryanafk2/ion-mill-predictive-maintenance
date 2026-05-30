@@ -6,7 +6,7 @@ import time
 
 BASE_URL = "http://127.0.0.1:8000/api/sensor-readings/"
 
-TOOL_NAME = "02_M01"
+TOOL_NAME = "01_M01"
 
 sys.path.append(
     os.path.abspath(

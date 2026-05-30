@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Equipment
 
+from ml.ttf_predictor import predict_ttf
 
 
 
@@ -18,7 +19,11 @@ class SensorReadingCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
 
+        
+
         reading = serializer.save()
+
+        
 
         sensor_values = [
             reading.ion_gauge_pressure,
@@ -26,13 +31,35 @@ class SensorReadingCreateView(generics.CreateAPIView):
             reading.flowcool_flowrate
         ]
 
-        score, is_anomaly = predict_anomaly(sensor_values)
-        health = calculate_health_score(score)
+        
+
+        score, is_anomaly = predict_anomaly(
+            sensor_values
+        )
+
+        
+        health = calculate_health_score(
+            score
+        )
+
+        
+
+        predicted_ttf = predict_ttf(
+            sensor_values
+        )
+
+        
+
         reading.health_score = health
         reading.anomaly_score = score
         reading.is_anomaly = is_anomaly
+        reading.predicted_ttf = predicted_ttf
+
+        
 
         reading.save()
+
+        
 
 class EquipmentHealthView(APIView):
 
@@ -56,7 +83,8 @@ class EquipmentHealthView(APIView):
             "tool_id": equipment.tool_id,
             "health_score": latest_reading.health_score,
             "is_anomaly": latest_reading.is_anomaly,
-            "timestamp": latest_reading.timestamp
+            "timestamp": latest_reading.timestamp,
+            "predicted_ttf": latest_reading.predicted_ttf
         })
     
 class RecentReadingsView(APIView):

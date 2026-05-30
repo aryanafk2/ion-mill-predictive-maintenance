@@ -79,7 +79,7 @@ function App() {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 5000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [selectedEquipment]);
@@ -251,7 +251,12 @@ function App() {
               {health.health_score?.toFixed(2)}%
             </span>
           </p>
-
+              <p style={{ fontSize: "1.3rem" }}>
+                <strong>Predicted TTF:</strong>{" "}
+                {health.predicted_ttf
+                  ? health.predicted_ttf.toFixed(0)
+                  : "N/A"}
+              </p>                 
           <p style={{ fontSize: "1.3rem" }}>
             <strong>Status:</strong>{" "}
             <span
