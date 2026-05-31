@@ -17,7 +17,15 @@ class SensorReadingSerializer(serializers.ModelSerializer):
             "timestamp",
             "ion_gauge_pressure",
             "flowcool_pressure",
-            "flowcool_flowrate"
+            "flowcool_flowrate",
+            "etch_source_usage",
+            "etch_aux_source_timer",
+            "etch_aux2_source_timer",
+            "etch_beam_current",
+            "rotation_speed",
+            "actual_step_duration",
+            "etch_beam_voltage",
+            "actual_rotation_angle"
         ]
 
     def create(self, validated_data):

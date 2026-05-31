@@ -10,7 +10,22 @@ from .models import Equipment
 
 from ml.ttf_predictor import predict_ttf
 
-
+MACHINE_MAP = {
+    "01_M01": 0,
+    "01_M02": 1,
+    "02_M01": 2,
+    "03_M02": 3,
+    "04_M01": 4,
+    "04_M02": 5,
+    "05_M01": 6,
+    "05_M02": 7,
+    "06_M01": 8,
+    "06_M02": 9,
+    "07_M01": 10,
+    "08_M01": 11,
+    "09_M01": 12,
+    "10_M01": 13
+}
 
 class SensorReadingCreateView(generics.CreateAPIView):
 
@@ -23,31 +38,42 @@ class SensorReadingCreateView(generics.CreateAPIView):
 
         reading = serializer.save()
 
-        
-
-        sensor_values = [
+        anomaly_features = [
             reading.ion_gauge_pressure,
             reading.flowcool_pressure,
             reading.flowcool_flowrate
         ]
 
-        
-
         score, is_anomaly = predict_anomaly(
-            sensor_values
+            anomaly_features
         )
 
-        
         health = calculate_health_score(
             score
         )
 
-        
-
-        predicted_ttf = predict_ttf(
-            sensor_values
+        machine_id = MACHINE_MAP.get(
+            reading.equipment.tool_id,
+            0
         )
 
+        ttf_features = [
+            reading.etch_source_usage,
+            reading.etch_aux_source_timer,
+            reading.etch_aux2_source_timer,
+            reading.etch_beam_current,
+            reading.flowcool_pressure,
+            reading.rotation_speed,
+            reading.actual_step_duration,
+            reading.ion_gauge_pressure,
+            reading.etch_beam_voltage,
+            reading.actual_rotation_angle,
+            machine_id
+        ]
+
+        predicted_ttf = predict_ttf(
+            ttf_features
+        )
         
 
         reading.health_score = health

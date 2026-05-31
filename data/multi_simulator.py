@@ -35,9 +35,19 @@ def simulate_tool(tool_name, csv_path):
         payload = {
             "tool_id": tool_name,
             "timestamp": row["time"],
+
             "ion_gauge_pressure": row["IONGAUGEPRESSURE"],
             "flowcool_pressure": row["FLOWCOOLPRESSURE"],
-            "flowcool_flowrate": row["FLOWCOOLFLOWRATE"]
+            "flowcool_flowrate": row["FLOWCOOLFLOWRATE"],
+
+            "etch_source_usage": row["ETCHSOURCEUSAGE"],
+            "etch_aux_source_timer": row["ETCHAUXSOURCETIMER"],
+            "etch_aux2_source_timer": row["ETCHAUX2SOURCETIMER"],
+            "etch_beam_current": row["ETCHBEAMCURRENT"],
+            "rotation_speed": row["ROTATIONSPEED"],
+            "actual_step_duration": row["ACTUALSTEPDURATION"],
+            "etch_beam_voltage": row["ETCHBEAMVOLTAGE"],
+            "actual_rotation_angle": row["ACTUALROTATIONANGLE"]
         }
 
         try:

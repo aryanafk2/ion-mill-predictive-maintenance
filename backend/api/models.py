@@ -42,6 +42,21 @@ class SensorReading(models.Model):
         null=True,
         blank=True
     )
+    etch_source_usage = models.FloatField(null=True, blank=True)
+
+    etch_aux_source_timer = models.FloatField(null=True, blank=True)
+
+    etch_aux2_source_timer = models.FloatField(null=True, blank=True)
+
+    etch_beam_current = models.FloatField(null=True, blank=True)
+
+    rotation_speed = models.FloatField(null=True, blank=True)
+
+    actual_step_duration = models.FloatField(null=True, blank=True)
+
+    etch_beam_voltage = models.FloatField(null=True, blank=True)
+
+    actual_rotation_angle = models.FloatField(null=True, blank=True)
     def __str__(self):
         return f"{self.equipment.tool_id} - {self.timestamp}"   
  # 1 equipment can have multiple sensor readings, 
