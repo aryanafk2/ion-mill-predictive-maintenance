@@ -1,22 +1,14 @@
 # Ion Mill Predictive Maintenance System
 
-A full-stack predictive maintenance platform built using the PHM 2022 Data Challenge dataset. The system continuously ingests industrial ion mill telemetry, performs anomaly detection and Remaining Useful Life (RUL) estimation, stores telemetry in PostgreSQL, and visualizes equipment health through a React-based fleet monitoring dashboard.
+A full-stack predictive maintenance platform built using the PHM 2018 Data Challenge dataset. The system continuously ingests industrial ion mill telemetry, performs anomaly detection and Remaining Useful Life (RUL) estimation, stores telemetry in PostgreSQL, and visualizes equipment health through a React-based fleet monitoring dashboard.
 
 ---
 
 ## Overview
 
-Industrial ion milling equipment generates large volumes of sensor telemetry during operation. Unexpected failures can lead to costly downtime, production delays, and maintenance expenses.
+Industrial ion milling equipment generates large volumes of sensor telemetry during operation. Unexpected failures can lead to costly downtime, production losses, and increased maintenance costs.
 
-This project aims to predict equipment degradation before failure by combining:
-
-* Real industrial telemetry data
-* Machine learning-based anomaly detection
-* Time-to-Failure (TTF) prediction
-* Fleet-level monitoring and alerting
-* Containerized deployment using Docker
-
-The system simulates multiple ion mill tools operating concurrently and provides real-time visibility into equipment health.
+This project combines machine learning, backend engineering, containerization, and data visualization to create an end-to-end predictive maintenance platform capable of monitoring multiple tools simultaneously and estimating equipment degradation in real time.
 
 ---
 
@@ -25,61 +17,60 @@ The system simulates multiple ion mill tools operating concurrently and provides
 ### Fleet Monitoring
 
 * Monitor multiple ion mill tools simultaneously
-* View overall fleet health
-* Compare health across equipment
-* Identify tools requiring attention
+* Compare equipment health across the fleet
+* Identify tools requiring maintenance attention
+* View real-time operational status
 
 ### Anomaly Detection
 
-* Isolation Forest-based anomaly detection
+* Isolation Forest based anomaly detection
 * Real-time anomaly scoring
-* Equipment health score generation
-* Early warning indicators
+* Automated health score generation
+* Early warning alerts for abnormal behaviour
 
 ### Remaining Useful Life Prediction
 
-* Time-to-Failure prediction model
-* Continuous estimation of remaining equipment life
-* Predictive maintenance support
+* Time-to-Failure (TTF) estimation
+* Machine-aware predictive model
+* Fleet-wide degradation modeling
+* Maintenance planning support
 
 ### Telemetry Ingestion
 
 * Concurrent multi-tool simulation
-* Streaming sensor telemetry into the platform
-* Historical telemetry storage
+* Streaming industrial telemetry
+* Historical sensor storage in PostgreSQL
 
 ### Containerized Deployment
 
-* Dockerized frontend
-* Dockerized backend
+* Dockerized React frontend
+* Dockerized Django backend
 * Dockerized PostgreSQL database
 * One-command deployment with Docker Compose
 
 ---
 
 ## System Architecture
-## Data Flow
 
 ```text
-PHM Dataset
-     │
-     ▼
-Multi-Tool Simulator
-     │
-     ▼
+PHM 2022 Dataset
+        │
+        ▼
+Multi-Tool Telemetry Simulator
+        │
+        ▼
 Django REST API
-     │
-     ├── Stores telemetry in PostgreSQL
-     ├── Runs Isolation Forest anomaly detection
-     └── Generates TTF predictions
-     | 
-     ▼
+        │
+        ├── PostgreSQL Storage
+        ├── Isolation Forest Anomaly Detection
+        └── TTF Prediction Engine
+        │
+        ▼
 React Fleet Dashboard
-     │
-     ▼
-Operators and Maintenance Engineers
+        │
+        ▼
+Maintenance Engineers
 ```
-
 
 ---
 
@@ -105,7 +96,7 @@ Operators and Maintenance Engineers
 
 * Scikit-learn
 * Isolation Forest
-* Random Forest Regressor
+* HistGradientBoostingRegressor
 * Pandas
 * NumPy
 
@@ -118,9 +109,9 @@ Operators and Maintenance Engineers
 
 ## Dataset
 
-This project is built using the PHM 2022 Data Challenge dataset containing telemetry collected from industrial ion milling equipment.
+This project uses the PHM 2022 Data Challenge dataset containing telemetry collected from industrial ion milling equipment.
 
-Example sensor streams include:
+Example telemetry signals include:
 
 * Ion Gauge Pressure
 * Flowcool Pressure
@@ -129,12 +120,13 @@ Example sensor streams include:
 * Etch Beam Current
 * Rotation Speed
 * Source Usage
+* Auxiliary Source Timers
 * Process Duration
 
 The dataset also provides:
 
-* Failure information
-* Time-to-Failure labels
+* Failure labels
+* Time-to-Failure targets
 * Tool identifiers
 * Process metadata
 
@@ -144,14 +136,7 @@ The dataset also provides:
 
 ### Anomaly Detection
 
-Sensor telemetry is processed using an Isolation Forest model.
-
-Pipeline:
-
-1. Receive sensor readings
-2. Generate anomaly score
-3. Detect abnormal operating conditions
-4. Convert anomaly score into equipment health score
+An Isolation Forest model monitors incoming telemetry and identifies abnormal operating conditions.
 
 Outputs:
 
@@ -161,40 +146,42 @@ Outputs:
 
 ### Remaining Useful Life Prediction
 
-A Random Forest Regressor is trained on PHM telemetry and Time-to-Failure labels.
+A fleet-wide HistGradientBoostingRegressor model predicts Time-to-Failure using sensor telemetry and machine-specific context.
+
+Features used:
+
+* Etch Source Usage
+* Auxiliary Source Timers
+* Etch Beam Current
+* Flowcool Pressure
+* Rotation Speed
+* Step Duration
+* Ion Gauge Pressure
+* Etch Beam Voltage
+* Rotation Angle
+* Machine Identifier
 
 Outputs:
 
 * Predicted Time-to-Failure
-* Remaining Useful Life estimation
+* Remaining Useful Life Estimate
 
 ---
 
-## Project Structure
+## Model Evaluation
 
-```text
-ion-mill-predictive/
-│
-├── backend/
-│   ├── api/
-│   ├── config/
-│   ├── ml/
-│   └── manage.py
-│
-├── frontend/
-│
-├── data/
-│   ├── raw/
-│   └── simulator/
-│
-├── scripts/
-│
-├── docs/
-│
-├── docker-compose.yml
-│
-└── README.md
-```
+Several models were evaluated during development.
+
+| Model                             | Dataset Scope |     MAE | Model Size |
+| --------------------------------- | ------------- | ------: | ---------: |
+| Random Forest (Baseline)          | Single Tool   |  ~1.29M |     491 MB |
+| Random Forest (Extended Features) | Single Tool   |    ~295 |     8.9 GB |
+| HistGradientBoosting              | Single Tool   |  ~7,337 |     726 KB |
+| Production HistGradientBoosting   | 14 Tools      | ~38,896 |     730 KB |
+
+The final deployment model was selected based on scalability, inference speed, deployment efficiency, and fleet-wide generalization performance.
+
+---
 
 ## API Endpoints
 
@@ -261,26 +248,26 @@ docker compose down
 ## Current Capabilities
 
 * Multi-tool monitoring
-* Concurrent telemetry simulation
-* Fleet health tracking
+* Fleet health visualization
 * Anomaly detection
-* Health scoring
-* Time-to-Failure prediction
+* Health score generation
+* Fleet-wide TTF prediction
+* Historical telemetry storage
+* Concurrent telemetry simulation
 * PostgreSQL persistence
-* Docker deployment
+* Containerized deployment
 
 ---
 
 ## Future Improvements
 
-* Additional sensor feature engineering
-* Multi-failure prediction models
-* Advanced Remaining Useful Life estimation
-* Fleet-level analytics
-* Real-time streaming architecture
-* Role-based access control
+* Failure-specific prediction models
+* Explainable AI dashboards
+* Real-time streaming infrastructure
 * Cloud deployment
-* Enhanced dashboard visualizations
+* Authentication and access control
+* Advanced maintenance scheduling
+* Fleet-level analytics
 
 ---
 
@@ -290,7 +277,4 @@ Aryan Sheikh
 
 MIT Manipal
 
-Artificial Intelligence & Machine Learning
-
-
-
+B.Tech Computer Science (AI & ML)
