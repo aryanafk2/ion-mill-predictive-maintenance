@@ -53,7 +53,7 @@ This project combines machine learning, backend engineering, containerization, a
 ## System Architecture
 
 ```text
-PHM 2022 Dataset
+PHM 2018 Dataset
         │
         ▼
 Multi-Tool Telemetry Simulator
@@ -109,7 +109,7 @@ Maintenance Engineers
 
 ## Dataset
 
-This project uses the PHM 2022 Data Challenge dataset containing telemetry collected from industrial ion milling equipment.
+This project uses the PHM 2018 Data Challenge dataset containing telemetry collected from industrial ion milling equipment.
 
 Example telemetry signals include:
 
