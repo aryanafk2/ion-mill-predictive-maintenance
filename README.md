@@ -1,6 +1,16 @@
 # Ion Mill Predictive Maintenance System
 
-A full-stack predictive maintenance platform built using the PHM 2018 Data Challenge dataset. The system continuously ingests industrial ion mill telemetry, performs anomaly detection and Remaining Useful Life (RUL) estimation, stores telemetry in PostgreSQL, and visualizes equipment health through a React-based fleet monitoring dashboard.
+A full-stack predictive maintenance platform built using the PHM 2018 Data Challenge dataset. The system continuously ingests industrial ion mill telemetry, performs anomaly detection and Remaining Useful Life (RUL) estimation, stores telemetry in PostgreSQL, and visualizes equipment health through a React dashboard, and is fully containerized using Docker.
+
+---
+
+## Live Dashboard Demo
+
+<p align="center"> <img src="docs/phm_demo_final.gif" alt="Dashboard Demo" width="100%"> </p>
+
+## Dashboard Overview
+
+<p align="center"> <img src="docs/dashboard_before_starting.png" alt="Dashboard Overview" width="100%"> </p>
 
 ---
 
