@@ -1,5 +1,4 @@
 # Ion Mill Predictive Maintenance System
-# Ion Mill Predictive Maintenance System
 
 ![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
