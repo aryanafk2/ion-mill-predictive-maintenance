@@ -1,14 +1,23 @@
 # Ion Mill Predictive Maintenance System
+# Ion Mill Predictive Maintenance System
+
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Django](https://img.shields.io/badge/Django-5-092E20?logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 A full-stack predictive maintenance platform built using the PHM 2018 Data Challenge dataset. The system continuously ingests industrial ion mill telemetry, performs anomaly detection and Remaining Useful Life (RUL) estimation, stores telemetry in PostgreSQL, and visualizes equipment health through a React dashboard, and is fully containerized using Docker.
 
 ---
 
-## Live Dashboard Demo
+## Live Dashboard Demo (After Running 4 Machines)
 
 <p align="center"> <img src="docs/phm_demo_final.gif" alt="Dashboard Demo" width="100%"> </p>
 
-## Dashboard Overview
+## Dashboard Overview (Before Running Any Machine)
 
 <p align="center"> <img src="docs/dashboard_before_starting.jpeg" alt="Dashboard Overview" width="100%"> </p>
 
