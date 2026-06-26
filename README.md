@@ -10,7 +10,7 @@ A full-stack predictive maintenance platform built using the PHM 2018 Data Chall
 
 ## Dashboard Overview
 
-<p align="center"> <img src="docs/dashboard_before_starting.png" alt="Dashboard Overview" width="100%"> </p>
+<p align="center"> <img src="docs/dashboard_before_starting.jpeg" alt="Dashboard Overview" width="100%"> </p>
 
 ---
 
